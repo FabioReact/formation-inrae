@@ -1,31 +1,55 @@
 import { useEffect, useState } from 'react';
-import HeroCard from '../components/HeroCard'
-import { Hero } from '../types/hero'
+import HeroCard from '../components/HeroCard';
+import { Hero } from '../types/hero';
 
 type HeroesListProps = {
-  heroes: Hero[]
-}
+  heroes: Hero[];
+};
 
 const HeroesList = ({ heroes }: HeroesListProps) => {
   return (
     <div>
-      {heroes.map((hero) => <HeroCard key={hero.id} hero={hero} />)}
+      {heroes.map((hero) => (
+        <HeroCard key={hero.id} hero={hero} />
+      ))}
     </div>
-  )
-}
+  );
+};
+
+type ListOfLettersProps = {
+  callback: React.Dispatch<React.SetStateAction<string>>;
+};
+
+const ListOfLetters = ({ callback }: ListOfLettersProps) => {
+  const letters = [];
+  for (let i = 65; i <= 90; i++) {
+    letters.push(String.fromCharCode(i));
+  }
+  return (
+    <div className='flex justify-center gap-2'>
+      {letters.map((letter) => (
+        <button onClick={() => callback(letter)} key={letter}>
+          {letter}
+        </button>
+      ))}
+    </div>
+  );
+};
 
 const Heroes = () => {
   const [letter, setLetter] = useState('A');
   const [heroes, setHeroes] = useState<Hero[]>([]);
-  
+
   useEffect(() => {
-    fetch('http://localhost:4000/heroes?name_like=^A')
+    fetch(`http://localhost:4000/heroes?name_like=^${letter}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data)
-        setHeroes(data)
+        setHeroes(data);
       });
-  }, [])
+    return () => {
+      // cancel fetch request
+    };
+  }, [letter]);
 
   const onClickHandler = (letter: string) => {
     setLetter(letter);
@@ -34,17 +58,13 @@ const Heroes = () => {
   return (
     <section>
       <h1>Heroes List</h1>
-      <ul>
-        <li onClick={() => onClickHandler('A')}>A</li>
-        <li onClick={() => onClickHandler('B')}>B</li>
-        <li onClick={() => onClickHandler('C')}>C</li>
-        <li onClick={() => onClickHandler('D')}>D</li>
-        <li onClick={() => onClickHandler('E')}>E</li>
-        <li onClick={() => onClickHandler('F')}>F</li>
-      </ul>
+      <ListOfLetters callback={setLetter} />
       <p>Vous avez cliqué sur la lettre: {letter}</p>
-      <div>
-        {heroes.map((hero) => <HeroCard key={hero.id} hero={hero} />)}
+      {/* <HeroesList heroes={heroes} /> */}
+      <div className='flex flex-wrap justify-center gap-4'>
+        {heroes.map((hero) => (
+          <HeroCard key={hero.id} hero={hero} />
+        ))}
       </div>
     </section>
   );
