@@ -1,47 +1,8 @@
-import React, { useState, useReducer } from 'react';
+import React, { useReducer } from 'react';
 import { fetcher } from '../api/fetcher';
 import HeroesList from '../components/HeroesList';
+import { ActionNames, ReducerState, useSearchHeroesReducer } from '../reducers/useSearchHeroesReducer'
 import { Hero } from '../types/hero';
-
-type ReducerState = {
-	heroes: Hero[];
-	search: string;
-	loading: boolean;
-	error: boolean;
-	errorMessage: string;
-};
-
-const reducer = (state: ReducerState, action: any) => {
-	switch (action.type) {
-		case 'setLoading':
-			return {
-				...state,
-				loading: true,
-				error: false,
-				errorMessage: '',
-			}
-		case 'changeSearchInput':
-			return {
-				...state,
-				search: action.payload,
-			}
-		case 'setHeroes':
-			return {
-				...state,
-				loading: false,
-				heroes: action.payload,
-			}
-		case 'setError':
-			return {
-				...state,
-				loading: false,
-				error: true,
-				errorMessage: action.payload,
-			}
-		default:
-			throw new Error('Not a valid action type - Search Hero Reducer');
-	}
-};
 
 const Search = () => {
   const initialState: ReducerState = {
@@ -51,32 +12,32 @@ const Search = () => {
     error: false,
     errorMessage: '',
   };
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(useSearchHeroesReducer, initialState);
 
   const onChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-		dispatch({
-			type: 'changeSearchInput',
-			payload: event.target.value,
-		})
+    dispatch({
+      type: ActionNames.SET_INPUT,
+      payload: event.target.value,
+    });
   };
 
   const onSearchHandler = () => {
-		dispatch({
-			type: 'setLoading',
-		})
+    dispatch({
+      type: ActionNames.SET_LOADING,
+    });
     fetcher
       .get<Hero[]>(`/heroes?name_like=^${state.search}`)
       .then((response) => {
-				dispatch({
-					type: 'setHeroes',
+        dispatch({
+          type: ActionNames.SET_HEROES,
 					payload: response.data,
-				});
+        });
       })
       .catch((err) => {
-				dispatch({
-					type: 'setError',
-					payload: err.message,
-				})
+        dispatch({
+          type: ActionNames.SET_ERROR,
+          payload: err.message,
+        });
       });
   };
 
@@ -97,5 +58,4 @@ const Search = () => {
   );
 };
 
-// export { Search as default}
 export default Search;
