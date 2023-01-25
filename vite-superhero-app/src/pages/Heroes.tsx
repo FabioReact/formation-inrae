@@ -1,11 +1,31 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import HeroCard from '../components/HeroCard'
+import { Hero } from '../types/hero'
+
+type HeroesListProps = {
+  heroes: Hero[]
+}
+
+const HeroesList = ({ heroes }: HeroesListProps) => {
+  return (
+    <div>
+      {heroes.map((hero) => <HeroCard key={hero.id} hero={hero} />)}
+    </div>
+  )
+}
 
 const Heroes = () => {
   const [letter, setLetter] = useState('A');
-
-  fetch('http://localhost:4000/heroes?name_like=^A')
-    .then((res) => res.json())
-    .then((data) => console.log(data));
+  const [heroes, setHeroes] = useState<Hero[]>([]);
+  
+  useEffect(() => {
+    fetch('http://localhost:4000/heroes?name_like=^A')
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data)
+        setHeroes(data)
+      });
+  }, [])
 
   const onClickHandler = (letter: string) => {
     setLetter(letter);
@@ -24,7 +44,7 @@ const Heroes = () => {
       </ul>
       <p>Vous avez cliqué sur la lettre: {letter}</p>
       <div>
-        <p>Nom de hero</p>
+        {heroes.map((hero) => <HeroCard key={hero.id} hero={hero} />)}
       </div>
     </section>
   );
