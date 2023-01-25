@@ -1,20 +1,8 @@
 import { useEffect, useState } from 'react';
+import { fetcher } from '../api/fetcher'
 import HeroCard from '../components/HeroCard';
+import HeroesList from '../components/HeroesList'
 import { Hero } from '../types/hero';
-
-type HeroesListProps = {
-  heroes: Hero[];
-};
-
-const HeroesList = ({ heroes }: HeroesListProps) => {
-  return (
-    <div>
-      {heroes.map((hero) => (
-        <HeroCard key={hero.id} hero={hero} />
-      ))}
-    </div>
-  );
-};
 
 type ListOfLettersProps = {
   callback: React.Dispatch<React.SetStateAction<string>>;
@@ -41,30 +29,25 @@ const Heroes = () => {
   const [heroes, setHeroes] = useState<Hero[]>([]);
 
   useEffect(() => {
-    fetch(`http://localhost:4000/heroes?name_like=^${letter}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setHeroes(data);
+    fetcher.get<Hero[]>(`http://localhost:4000/heroes?name_like=^${letter}`)
+      .then((response) => {
+        setHeroes(response.data);
       });
     return () => {
       // cancel fetch request
     };
   }, [letter]);
 
-  const onClickHandler = (letter: string) => {
-    setLetter(letter);
-  };
-
   return (
     <section>
       <h1>Heroes List</h1>
       <ListOfLetters callback={setLetter} />
       <p>Vous avez cliqué sur la lettre: {letter}</p>
-      {/* <HeroesList heroes={heroes} /> */}
       <div className='flex flex-wrap justify-center gap-4'>
-        {heroes.map((hero) => (
+        <HeroesList heroes={heroes} />
+        {/* {heroes.map((hero) => (
           <HeroCard key={hero.id} hero={hero} />
-        ))}
+        ))} */}
       </div>
     </section>
   );
