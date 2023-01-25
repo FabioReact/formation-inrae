@@ -1,4 +1,4 @@
-import { Hero } from '../types/hero'
+import { Hero } from '../types/hero';
 
 export type ReducerState = {
   heroes: Hero[];
