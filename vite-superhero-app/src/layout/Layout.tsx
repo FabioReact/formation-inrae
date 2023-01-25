@@ -1,19 +1,33 @@
-import { Outlet, NavLink } from 'react-router-dom'
+import { Outlet, NavLink } from 'react-router-dom';
 
 const Layout = () => {
-	return (
-		<>
-			<nav>
-				<ul>
-					<li><NavLink to='heroes'>Heroes</NavLink></li>
-					<li><NavLink to='counter'>Counter</NavLink></li>
-					<li><NavLink to='background'>Background</NavLink></li>
-				</ul>
-			</nav>
-			<Outlet />
-			<footer>Copyright - React 2023</footer>
-		</>
-	)
-}
+  const getActiveClassName = ({ isActive }: { isActive: boolean }) =>
+    isActive ? 'text-red-700' : undefined;
+  return (
+    <>
+      <nav>
+        <ul className='flex justify-center gap-2 text-xl'>
+          <li>
+            <NavLink className={getActiveClassName} to='heroes'>
+              Heroes
+            </NavLink>
+          </li>
+          <li>
+            <NavLink className={getActiveClassName} to='counter'>
+              Counter
+            </NavLink>
+          </li>
+          <li>
+            <NavLink className={getActiveClassName} to='background'>
+              Background
+            </NavLink>
+          </li>
+        </ul>
+      </nav>
+      <Outlet />
+      <footer>Copyright - React 2023</footer>
+    </>
+  );
+};
 
-export default Layout
+export default Layout;
