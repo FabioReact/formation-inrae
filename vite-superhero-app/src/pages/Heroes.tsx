@@ -29,7 +29,7 @@ const Heroes = () => {
   const [heroes, setHeroes] = useState<Hero[]>([]);
 
   useEffect(() => {
-    fetcher.get<Hero[]>(`http://localhost:4000/heroes?name_like=^${letter}`)
+    fetcher.get<Hero[]>(`/heroes?name_like=^${letter}`)
       .then((response) => {
         setHeroes(response.data);
       });
