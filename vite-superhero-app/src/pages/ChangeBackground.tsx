@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const colors = [
   'bg-inherit',
@@ -231,7 +231,20 @@ const colors = [
 const colorStyle = ['red', 'green', 'blue'];
 
 const ChangeBackground = () => {
-  const [selectedColor, setSelectedColor] = useState('');
+  const [selectedColor, setSelectedColor] = useState<string>('');
+  const mountedRef = useRef<boolean>(false);
+
+  useEffect(() => {
+    if (!mountedRef.current) {
+      console.log('Uniquement lors de la création de selectedColor');
+    }
+    if (mountedRef.current) {
+      console.log('Uniquement lors de la mise à jour de selectedColor');
+    }
+    console.log('Lors de la création ou mise à jour de selectedColor');
+    mountedRef.current = true;
+  }, [selectedColor]);
+
   return (
     <section
       className={`flex flex-wrap gap-4 ${selectedColor}`}
