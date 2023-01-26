@@ -1,4 +1,7 @@
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { useRegisterMutation } from '../redux/services/auth';
 // import { useAppDispatch } from '../redux/hooks'
 
 type FormValues = {
@@ -13,8 +16,17 @@ const Register = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
+  const navigate = useNavigate();
 
-  const onSubmit = (data: FormValues) => console.log(data);
+  const [registerUser, { data, isSuccess, isError }] = useRegisterMutation();
+
+  useEffect(() => {
+    if (isSuccess) navigate('/profile');
+  }, [isSuccess]);
+
+  const onSubmit = (data: FormValues) => {
+    registerUser(data);
+  };
 
   return (
     <section>
@@ -31,6 +43,8 @@ const Register = () => {
           {errors.password && <span>Password is required</span>}
         </fieldset>
         <button>Register</button>
+        {isError && <p>Erreur lors de l&apos;inscription</p>}
+        {isSuccess && <pre>{JSON.stringify(data, null, 2)}</pre>}
       </form>
     </section>
   );
