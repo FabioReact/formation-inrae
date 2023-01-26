@@ -45,11 +45,18 @@ const Layout = () => {
               <button onClick={logout}>Logout</button>
             </li>
           ) : (
-            <li>
-              <NavLink className={getActiveClassName} to='login'>
-                Login
-              </NavLink>
-            </li>
+            <>
+              <li>
+                <NavLink className={getActiveClassName} to='register'>
+                  Register
+                </NavLink>
+              </li>
+              <li>
+                <NavLink className={getActiveClassName} to='login'>
+                  Login
+                </NavLink>
+              </li>
+            </>
           )}
         </ul>
       </nav>

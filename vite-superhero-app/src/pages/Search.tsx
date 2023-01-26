@@ -1,11 +1,9 @@
 import { useRef } from 'react';
 import HeroesList from '../components/HeroesList';
-import { useSearchHeroes } from '../hooks/useSearchHeroes';
 import { useLazySearchHeroesByNameQuery } from '../redux/services/heroes';
 
 const Search = () => {
   const searchRef = useRef<HTMLInputElement>(null);
-  // const { loading, error, errorMessage, heroes, searchHeroes } = useSearchHeroes();
   const [searchHeroes, { isLoading, isError, error, data, isSuccess }] =
     useLazySearchHeroesByNameQuery();
 

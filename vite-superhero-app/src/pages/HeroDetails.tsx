@@ -1,20 +1,10 @@
-import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getHeroById } from '../api/heroes';
 import HeroCard from '../components/HeroCard';
-import { useGetHerobyIdQuery, useLazyGetHerobyIdQuery } from '../redux/services/heroes';
-import { Hero } from '../types/hero';
+import { useGetHerobyIdQuery } from '../redux/services/heroes';
 
 const HeroDetails = () => {
   const { id } = useParams();
-  // const [hero, setHero] = useState<Hero | null>(null);
-  const { isError, isFetching, isLoading, isSuccess, data } = useGetHerobyIdQuery(+(id || 1));
-
-  // useEffect(() => {
-  //   getHeroById(id as string).then((hero) => {
-  //     setHero(hero);
-  //   });
-  // }, []);
+  const { isError, isLoading, isSuccess, data } = useGetHerobyIdQuery(+(id || 1));
 
   return (
     <section>
