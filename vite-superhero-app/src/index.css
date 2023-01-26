@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+h1 {
+  @apply text-center text-4xl uppercase tracking-widest font-thin my-6;
+}
+
+button,
+.btn {
+  @apply bg-black text-white rounded py-1 px-5;
+}
+
+input {
+  @apply border-b border-black mb-2 p-1;
+}

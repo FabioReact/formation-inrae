@@ -13,10 +13,9 @@ const Counter = () => {
   useEffect(() => {
     console.log('Création ou Mise à jour du compteur - composant Counter', counter);
     return () => {
-      console.log('Destruction du composant dont la valeur de counter est: ', counter)
-    }
+      console.log('Destruction du composant dont la valeur de counter est: ', counter);
+    };
   }, [counter]);
-
 
   const onButtonHandler = (value: number) => {
     setCounter((prevCounter) => prevCounter + value);

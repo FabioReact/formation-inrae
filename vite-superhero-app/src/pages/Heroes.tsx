@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
 // import HeroCard from '../components/HeroCard';
-import HeroesList from '../components/HeroesList'
-import { useSearchHeroes } from '../hooks/useSearchHeroes'
+import HeroesList from '../components/HeroesList';
+import { useSearchHeroes } from '../hooks/useSearchHeroes';
 
 type ListOfLettersProps = {
+  activeLetter: string;
   callback: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const ListOfLetters = ({ callback }: ListOfLettersProps) => {
+const ListOfLetters = ({ activeLetter, callback }: ListOfLettersProps) => {
   const letters = [];
   for (let i = 65; i <= 90; i++) {
     letters.push(String.fromCharCode(i));
@@ -15,9 +16,13 @@ const ListOfLetters = ({ callback }: ListOfLettersProps) => {
   return (
     <div className='flex justify-center gap-2'>
       {letters.map((letter) => (
-        <button onClick={() => callback(letter)} key={letter}>
+        <span
+          className={`cursor-pointer text-lg ${letter === activeLetter ? 'text-red-600' : ''}`}
+          onClick={() => callback(letter)}
+          key={letter}
+        >
           {letter}
-        </button>
+        </span>
       ))}
     </div>
   );
@@ -25,10 +30,10 @@ const ListOfLetters = ({ callback }: ListOfLettersProps) => {
 
 const Heroes = () => {
   const [letter, setLetter] = useState('A');
-  const { heroes, searchHeroes } = useSearchHeroes()
+  const { heroes, searchHeroes } = useSearchHeroes();
 
   useEffect(() => {
-    searchHeroes(letter)
+    searchHeroes(letter);
     return () => {
       // cancel fetch request
     };
@@ -37,20 +42,12 @@ const Heroes = () => {
   return (
     <section>
       <h1>Heroes List</h1>
-      <ListOfLetters callback={setLetter} />
-      <p>Vous avez cliqué sur la lettre: {letter}</p>
+      <ListOfLetters activeLetter={letter} callback={setLetter} />
       <div className='flex flex-wrap justify-center gap-4'>
         <HeroesList heroes={heroes} />
-        {/* {heroes.map((hero) => (
-          <HeroCard key={hero.id} hero={hero} />
-        ))} */}
       </div>
     </section>
   );
 };
 
-// export par défaut
 export default Heroes;
-
-// export nommé
-// export { Heroes }
