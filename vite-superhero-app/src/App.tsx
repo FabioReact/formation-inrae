@@ -4,6 +4,8 @@ import { router } from './Routes';
 import { useState } from 'react';
 import { ProfileContext } from './context/profile-context';
 import { LoginContext } from './context/login-context';
+import { Provider } from 'react-redux';
+import { store } from './redux/store'
 
 function App() {
   const [favoriteHeroes, setFavoriteHeroes] = useState([346]);
@@ -21,22 +23,24 @@ function App() {
   };
 
   return (
-    <LoginContext.Provider
-      value={{
-        username,
-        login,
-        logout,
-      }}
-    >
-      <ProfileContext.Provider
+    <Provider store={store}>
+      <LoginContext.Provider
         value={{
-          favoriteHeroes,
-          setFavoriteHeroes,
+          username,
+          login,
+          logout,
         }}
       >
-        <RouterProvider router={router} />
-      </ProfileContext.Provider>
-    </LoginContext.Provider>
+        <ProfileContext.Provider
+          value={{
+            favoriteHeroes,
+            setFavoriteHeroes,
+          }}
+        >
+          <RouterProvider router={router} />
+        </ProfileContext.Provider>
+      </LoginContext.Provider>
+    </Provider>
   );
 }
 
