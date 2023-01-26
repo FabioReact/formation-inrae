@@ -1,12 +1,16 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
+import { LoginContext } from '../context/login-context';
 
 const Login = () => {
+  const { login } = useContext(LoginContext);
   const usernameRef = useRef<HTMLInputElement>(null);
   const [password, setPassword] = useState('test');
 
   const onSubmitHandler = (event: React.SyntheticEvent) => {
     event.preventDefault();
     console.log(usernameRef.current?.value, password);
+    const username = usernameRef.current?.value || '';
+    login(username, password);
   };
 
   const onChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {

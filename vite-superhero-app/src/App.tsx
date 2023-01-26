@@ -3,19 +3,40 @@ import { RouterProvider } from 'react-router-dom';
 import { router } from './Routes';
 import { useState } from 'react';
 import { ProfileContext } from './context/profile-context';
+import { LoginContext } from './context/login-context';
 
 function App() {
   const [favoriteHeroes, setFavoriteHeroes] = useState([346]);
+  const [username, setUsername] = useState<string | null>(null);
+
+  const login = (username: string, password: string) => {
+    if (username === 'fabio' && password === 'secret') {
+      setUsername(username);
+      // Stock le token localStorage / Variable JS
+    }
+  };
+
+  const logout = () => {
+    setUsername(null);
+  };
 
   return (
-    <ProfileContext.Provider
+    <LoginContext.Provider
       value={{
-        favoriteHeroes,
-        setFavoriteHeroes,
+        username,
+        login,
+        logout,
       }}
     >
-      <RouterProvider router={router} />
-    </ProfileContext.Provider>
+      <ProfileContext.Provider
+        value={{
+          favoriteHeroes,
+          setFavoriteHeroes,
+        }}
+      >
+        <RouterProvider router={router} />
+      </ProfileContext.Provider>
+    </LoginContext.Provider>
   );
 }
 
