@@ -1,11 +1,11 @@
 import './App.css';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './Routes';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { ProfileContext } from './context/profile-context';
 import { LoginContext } from './context/login-context';
 import { Provider } from 'react-redux';
-import { store } from './redux/store'
+import { store } from './redux/store';
 
 function App() {
   const [favoriteHeroes, setFavoriteHeroes] = useState([346]);
@@ -37,7 +37,9 @@ function App() {
             setFavoriteHeroes,
           }}
         >
-          <RouterProvider router={router} />
+          <Suspense fallback={<div>Loading...</div>}>
+            <RouterProvider router={router} />
+          </Suspense>
         </ProfileContext.Provider>
       </LoginContext.Provider>
     </Provider>
