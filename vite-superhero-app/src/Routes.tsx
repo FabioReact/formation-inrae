@@ -1,6 +1,7 @@
 import { createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
 import Layout from './layout/Layout';
 import { ChangeBackground } from './pages/ChangeBackground';
+import Cities from './pages/Cities'
 import Counter from './pages/Counter';
 import HeroDetails from './pages/HeroDetails';
 import Heroes from './pages/Heroes';
@@ -14,6 +15,7 @@ const router = createBrowserRouter(
       <Route path='login' element={<Login />} />
       <Route path='search' element={<Search />} />
       <Route path='profile' element={<Profile />} />
+      <Route path='cities' element={<Cities />} />
       <Route path='background' element={<ChangeBackground />} />
       <Route path='heroes' element={<Heroes />} />
       <Route path='heroes/:id' element={<HeroDetails />} />

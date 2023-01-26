@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import profileReducer from './slices/profileSlice';
+import citiesReducer from './slices/citiesSlice';
 
 export const store = configureStore({
   reducer: {
     profile: profileReducer,
+    cities: citiesReducer,
   },
 });
 
