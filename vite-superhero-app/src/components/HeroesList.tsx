@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { Hero } from '../types/hero'
 import HeroCard from './HeroCard'
 
@@ -9,7 +10,9 @@ const HeroesList = ({ heroes }: HeroesListProps) => {
   return (
     <div>
       {heroes.map((hero) => (
-        <HeroCard key={hero.id} hero={hero} />
+        <Link to={`/heroes/${hero.id}`} key={hero.id}>
+          <HeroCard hero={hero} />
+        </Link>
       ))}
     </div>
   );

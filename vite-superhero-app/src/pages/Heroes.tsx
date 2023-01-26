@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
-// import { fetcher } from '../api/fetcher'
 // import HeroCard from '../components/HeroCard';
 import HeroesList from '../components/HeroesList'
 import { useSearchHeroes } from '../hooks/useSearchHeroes'
-// import { Hero } from '../types/hero';
 
 type ListOfLettersProps = {
   callback: React.Dispatch<React.SetStateAction<string>>;
@@ -27,15 +25,10 @@ const ListOfLetters = ({ callback }: ListOfLettersProps) => {
 
 const Heroes = () => {
   const [letter, setLetter] = useState('A');
-  // const [heroes, setHeroes] = useState<Hero[]>([]);
   const { heroes, searchHeroes } = useSearchHeroes()
 
   useEffect(() => {
     searchHeroes(letter)
-    // fetcher.get<Hero[]>(`/heroes?name_like=^${letter}`)
-    //   .then((response) => {
-    //     setHeroes(response.data);
-    //   });
     return () => {
       // cancel fetch request
     };

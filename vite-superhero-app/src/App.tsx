@@ -1,15 +1,19 @@
 import './App.css';
-import { ChangeBackground } from './pages/ChangeBackground'
-import Heroes from './pages/Heroes'; // import par défaut
-// import { Heroes } from './pages/Heroes'; // import nommé
+import { RouterProvider } from 'react-router-dom'
+import { router } from './Routes'
+import { useState } from 'react'
+import { ProfileContext } from './context/profile-context'
 
 function App() {
+  const [favoriteHeroes, setFavoriteHeroes] = useState([346])
+
   return (
-    <div>
-      <h1>Mon application</h1>
-      {/* <ChangeBackground /> */}
-      {/* <Heroes /> */}
-    </div>
+    <ProfileContext.Provider value={{
+      favoriteHeroes,
+      setFavoriteHeroes,
+      }}>
+      <RouterProvider router={router} />
+    </ProfileContext.Provider>
   );
 }
 

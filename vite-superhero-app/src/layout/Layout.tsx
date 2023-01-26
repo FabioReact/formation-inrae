@@ -32,6 +32,11 @@ const Layout = () => {
               Login
             </NavLink>
           </li>
+          <li>
+            <NavLink className={getActiveClassName} to='profile'>
+              Profile
+            </NavLink>
+          </li>
         </ul>
       </nav>
       <Outlet />
