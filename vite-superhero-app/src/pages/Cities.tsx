@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { addCity } from '../redux/slices/citiesSlice';
+import { addCity, removeCity } from '../redux/slices/citiesSlice';
 
 const Cities = () => {
   const cities = useAppSelector((state) => state.cities.citiesToVisit);
@@ -12,7 +12,12 @@ const Cities = () => {
     const city = cityInputRef.current?.value;
     if (city) {
       dispatch(addCity(city));
+      cityInputRef.current.value = '';
     }
+  };
+
+  const onDelete = (id: number) => {
+    dispatch(removeCity(id));
   };
 
   return (
@@ -25,7 +30,9 @@ const Cities = () => {
       </form>
       <ul>
         {cities.map((city) => (
-          <li key={city}>{city} <button>Delete</button></li>
+          <li key={city.cityId}>
+            {city.cityName} <button onClick={() => onDelete(city.cityId)}>Delete</button>
+          </li>
         ))}
       </ul>
     </section>

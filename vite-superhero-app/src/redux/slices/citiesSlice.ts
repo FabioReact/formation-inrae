@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type CitiesState = {
-  citiesToVisit: string[];
+  citiesToVisit: City[];
 };
 
 type City = {
@@ -10,7 +10,12 @@ type City = {
 };
 
 const initialState: CitiesState = {
-  citiesToVisit: ['Paris'],
+  citiesToVisit: [
+    {
+      cityName: 'Paris',
+      cityId: 1,
+    },
+  ],
 };
 
 export const citiesSlice = createSlice({
@@ -18,11 +23,17 @@ export const citiesSlice = createSlice({
   initialState,
   reducers: {
     addCity: (state, action: PayloadAction<string>) => {
-      state.citiesToVisit.push(action.payload);
+      state.citiesToVisit.push({
+        cityId: Date.now(),
+        cityName: action.payload,
+      });
+    },
+    removeCity: (state, action: PayloadAction<number>) => {
+      state.citiesToVisit = state.citiesToVisit.filter((city) => city.cityId !== action.payload);
     },
   },
 });
 
-export const { addCity } = citiesSlice.actions;
+export const { addCity, removeCity } = citiesSlice.actions;
 
 export default citiesSlice.reducer;

@@ -1,10 +1,13 @@
 import { useRef } from 'react';
 import HeroesList from '../components/HeroesList';
 import { useSearchHeroes } from '../hooks/useSearchHeroes';
+import { useLazySearchHeroesByNameQuery } from '../redux/services/heroes';
 
 const Search = () => {
   const searchRef = useRef<HTMLInputElement>(null);
-  const { loading, error, errorMessage, heroes, searchHeroes } = useSearchHeroes();
+  // const { loading, error, errorMessage, heroes, searchHeroes } = useSearchHeroes();
+  const [searchHeroes, { isLoading, isError, error, data, isSuccess }] =
+    useLazySearchHeroesByNameQuery();
 
   return (
     <section>
@@ -14,11 +17,9 @@ const Search = () => {
         <input ref={searchRef} type='text' id='name' name='name' />
       </fieldset>
       <button onClick={() => searchHeroes(searchRef.current?.value || '')}>Search</button>
-      {loading ? <div>Chargement</div> : undefined}
-      {error && <div className='text-red-600'>{errorMessage}</div>}
-      <div>
-        <HeroesList heroes={heroes} />
-      </div>
+      {isLoading ? <div>Chargement</div> : undefined}
+      {isError && <div className='text-red-600'>{error?.toString()}</div>}
+      <div className='flex flex-wrap'>{isSuccess && data && <HeroesList heroes={data} />}</div>
     </section>
   );
 };

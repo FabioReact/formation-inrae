@@ -1,12 +1,5 @@
 {
-	"users": [
-		{
-			"email": "fabio@email.com",
-			"password": "$2a$10$QMzISWqYmnDqGLhkPHy9Ze.VaTHLBeNSD8fI77fo7CPA81eUo5rXa",
-			"username": "fabio",
-			"id": 1
-		}
-	],
+	"users": [],
 	"heroes": [
 		{
 			"id": 1,

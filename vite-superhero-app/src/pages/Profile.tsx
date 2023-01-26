@@ -14,7 +14,7 @@ const Profile = () => {
       <p>Username: {username}</p>
       <ul>
         {cities.map((city) => (
-          <li key={city}>{city}</li>
+          <li key={city.cityId}>{city.cityName}</li>
         ))}
       </ul>
       <ul>
