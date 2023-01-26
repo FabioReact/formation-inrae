@@ -1,7 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type CitiesState = {
   citiesToVisit: string[];
+};
+
+type City = {
+  cityId: number;
+  cityName: string;
 };
 
 const initialState: CitiesState = {
@@ -11,7 +16,13 @@ const initialState: CitiesState = {
 export const citiesSlice = createSlice({
   name: 'cities',
   initialState,
-  reducers: {},
+  reducers: {
+    addCity: (state, action: PayloadAction<string>) => {
+      state.citiesToVisit.push(action.payload);
+    },
+  },
 });
+
+export const { addCity } = citiesSlice.actions;
 
 export default citiesSlice.reducer;
